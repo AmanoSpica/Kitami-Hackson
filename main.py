@@ -33,7 +33,8 @@ async def write_db(new_row):
 
 # [API] json Model
 class POST_DATA_MODEL(BaseModel):
-    place: str
+    latitude: str
+    longitude: str
     user_id: int
 
 
@@ -45,10 +46,8 @@ async def root(request: Request,):
 @app.post("/snow/new_post")
 async def new_post(data: POST_DATA_MODEL):
     logger.debug("POST: new_post ( /snow/new_post )")
-    logger.info(data.place)
-    logger.info(data.user_id)
     time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    data_row = [data.place, time, data.user_id]
+    data_row = [data.latitude, data.longitude, time, data.user_id]
     await write_db(data_row)
     return {"Message": "POST OK"}
 
