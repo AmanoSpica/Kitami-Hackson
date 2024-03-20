@@ -3,12 +3,17 @@ import csv
 from datetime import datetime
 from logger import Logger
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 import uvicorn
 from pydantic import BaseModel
 
 logger = Logger(log_level="DEBUG")
 app = FastAPI()
+app.mount(path="/static", app=StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 
 # read csv
@@ -32,10 +37,10 @@ class POST_DATA_MODEL(BaseModel):
     user_id: int
 
 
-@app.get("/")
-async def root():
+@app.get("/", response_class=HTMLResponse)
+async def root(request: Request,):
     logger.debug("GET: root ( / )")
-    return {"Message": "This is TEST SERVER"}
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/snow/new_post")
 async def new_post(data: POST_DATA_MODEL):
@@ -45,7 +50,7 @@ async def new_post(data: POST_DATA_MODEL):
     time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data_row = [data.place, time, data.user_id]
     await write_db(data_row)
-    return {"Message": "POST OK (TEST SERVER)"}
+    return {"Message": "POST OK"}
 
 @app.get("/snow")
 async def get_snow_data():
