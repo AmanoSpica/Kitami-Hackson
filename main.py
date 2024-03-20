@@ -1,6 +1,6 @@
 import os
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta
 from logger import Logger
 
 from fastapi import FastAPI, Request
@@ -62,9 +62,16 @@ async def new_post(data: POST_DATA_MODEL):
     return {"Message": "POST OK"}
 
 @app.get("/snow")
-async def get_snow_data():
+async def get_snow_data(data_before_hour: int = 0):
     logger.debug("GET: get_snow_data ( /snow )")
     data = await read_db()
+    if data_before_hour != 0:
+        now = datetime.now()
+        for index, row in enumerate(data):
+            logger.debug(row[2])
+            row_time = datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S')
+            if now - row_time > timedelta(hours=data_before_hour):
+                del data[index]
     return data
 
 
