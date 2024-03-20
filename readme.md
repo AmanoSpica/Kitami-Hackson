@@ -29,7 +29,7 @@ chatデータをリスト型ですべて返します。
 #### Request
 ```json
 {
-  "user_id": 123,
+  "user_name": "string",
   "message": "string"
 }
 ```
