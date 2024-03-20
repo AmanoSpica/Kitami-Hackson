@@ -67,11 +67,15 @@ async def get_snow_data(data_before_hour: int = 0):
     data = await read_db('data/db.csv')
     if data_before_hour != 0:
         now = datetime.now()
+        del_rows = []
         for index, row in enumerate(data):
-            logger.debug(row[2])
             row_time = datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S')
             if now - row_time > timedelta(hours=data_before_hour):
-                del data[index]
+                del_rows.append(index)
+        if del_rows != []:
+            del_rows.reverse()
+            for i in del_rows:
+                del data[i]
     return data
 
 class POST_CHAT_MODEL(BaseModel):
