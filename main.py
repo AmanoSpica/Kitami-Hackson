@@ -31,7 +31,6 @@ async def read_db(file):
     with open(file) as f:
         reader = csv.reader(f)
         data = [row for row in reader]
-        logger.debug(data)
         return data
 
 # write csv

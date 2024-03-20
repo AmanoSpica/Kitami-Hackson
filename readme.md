@@ -1,5 +1,6 @@
 # YUKIDOKE [Prototype]
-2024/03/19 ~ 03/20 Kitami-Hackson@KITAMIBASE
+2024/03/19 ~ 03/20 Kitami-Hackson@KITAMIBASE<br>
+「鶏白湯が食べたくて」チーム
 
 ## API Server
 ### [GET] /snow
