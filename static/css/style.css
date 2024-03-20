@@ -10,9 +10,22 @@ body {
 	font-family: 'Zen Kaku Gothic Antique', sans-serif;
 	text-align: center;
 }
+h1 {
+	color: #0088ff;
+	letter-spacing: 12px;
+}
 .top h3 {
 	color: #4169e1;
+	margin: 5px;
+}
+
+.Github {
+	margin: 20px;
 }
 a {
 	font-size: 20px;
+	color: black;
+}
+p {
+	margin: 0;
 }
