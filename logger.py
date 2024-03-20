@@ -43,7 +43,7 @@ class Logger:
 
     def __init__(self,  *,
                  log_level: str = 'INFO',
-                 save_log_dir: str = 'logs/console'):
+                 save_log_dir: str = 'logs'):
 
         # Logger設定
         self.log_dir: Path = Path(save_log_dir)
