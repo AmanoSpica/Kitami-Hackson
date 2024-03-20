@@ -7,6 +7,7 @@ from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 from pydantic import BaseModel
 
@@ -14,6 +15,15 @@ logger = Logger(log_level="DEBUG")
 app = FastAPI()
 app.mount(path="/static", app=StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+# CORS回避
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 # read csv
