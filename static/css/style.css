@@ -1,12 +1,18 @@
 * {
 	box-sizing: border-box;
-  }
+}
 
-  /* bodyタグ (html全体のレイアウト) */
-  body {
+/* bodyタグ (html全体のレイアウト) */
+body {
 	margin: 0;
 	background-color: #f0f8ff;
 	height: 100%;
 	font-family: 'Zen Kaku Gothic Antique', sans-serif;
 	text-align: center;
-  }
+}
+.top h3 {
+	color: #4169e1;
+}
+a {
+	font-size: 20px;
+}
