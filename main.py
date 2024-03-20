@@ -41,12 +41,12 @@ async def write_db(file, new_row):
         writer.writerow(new_row)
 
 
+# 除雪データ
 # [API] json Model
 class POST_DATA_MODEL(BaseModel):
     latitude: str
     longitude: str
     user_id: int
-
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request,):
@@ -78,6 +78,9 @@ async def get_snow_data(data_before_hour: int = 0):
                 del data[i]
     return data
 
+
+# チャットデータ
+# [API] json Model
 class POST_CHAT_MODEL(BaseModel):
     user_name: str
     message: str
@@ -85,7 +88,8 @@ class POST_CHAT_MODEL(BaseModel):
 @app.post("/chat/new_message")
 async def new_message(data: POST_CHAT_MODEL):
     logger.debug("POST: new_message ( /chat/new_message )")
-    data_row = [data.user_name, data.message]
+    time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    data_row = [data.user_name, data.message, time]
     await write_db('data/chat.csv',data_row)
     return {"Message": "POST OK"}
 

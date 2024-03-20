@@ -54,4 +54,7 @@ $ source env/bin/activate
 
 # 実行
 (venv) > python3 main.py
+
+# 開発用 reloadオプションで起動
+(venv) > uvicorn main:app --reload
 ```
