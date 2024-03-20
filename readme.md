@@ -1,5 +1,5 @@
 # Snow Removal SNS [Prototype]
-2024/03/19 Kitami-Hackson@KITAMIBASE
+2024/03/19 ~ 03/20 Kitami-Hackson@KITAMIBASE
 
 ## API Server
 ### [GET] /snow
