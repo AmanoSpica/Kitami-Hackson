@@ -10,7 +10,7 @@
 下記例では直近2時間のデータを取得し返します。<br>
 例）`/snow/?data_before_hour=2`
 
-### [PUT] /snow/new_post
+### [POST] /snow/new_post
 除雪データを登録します。
 #### Request
 ```json
@@ -20,6 +20,20 @@
   "user_id": 123
 }
 ```
+### [GET] /chat
+chatデータをリスト型ですべて返します。
+
+
+### [POST] /chat/new_message
+新規メッセージを登録します。
+#### Request
+```json
+{
+  "user_id": 123,
+  "message": "string"
+}
+```
+
 
 ## 実行環境
 Python 3.12.2

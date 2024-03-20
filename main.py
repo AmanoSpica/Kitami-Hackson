@@ -27,16 +27,16 @@ app.add_middleware(
 
 
 # read csv
-async def read_db():
-    with open('data/db.csv') as f:
+async def read_db(file):
+    with open(file) as f:
         reader = csv.reader(f)
         data = [row for row in reader]
         logger.debug(data)
         return data
 
 # write csv
-async def write_db(new_row):
-    with open('data/db.csv', 'a', newline="") as f:
+async def write_db(file, new_row):
+    with open(file, 'a', newline="") as f:
         writer = csv.writer(f, lineterminator="\n", quoting=csv.QUOTE_ALL)
         writer.writerow(new_row)
 
@@ -58,13 +58,13 @@ async def new_post(data: POST_DATA_MODEL):
     logger.debug("POST: new_post ( /snow/new_post )")
     time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     data_row = [data.latitude, data.longitude, time, data.user_id]
-    await write_db(data_row)
+    await write_db('data/db.csv', data_row)
     return {"Message": "POST OK"}
 
 @app.get("/snow")
 async def get_snow_data(data_before_hour: int = 0):
     logger.debug("GET: get_snow_data ( /snow )")
-    data = await read_db()
+    data = await read_db('data/db.csv')
     if data_before_hour != 0:
         now = datetime.now()
         for index, row in enumerate(data):
@@ -72,6 +72,23 @@ async def get_snow_data(data_before_hour: int = 0):
             row_time = datetime.strptime(row[2], '%Y-%m-%d %H:%M:%S')
             if now - row_time > timedelta(hours=data_before_hour):
                 del data[index]
+    return data
+
+class POST_CHAT_MODEL(BaseModel):
+    user_id: int
+    message: str
+
+@app.post("/chat/new_message")
+async def new_message(data: POST_CHAT_MODEL):
+    logger.debug("POST: new_message ( /chat/new_message )")
+    data_row = [data.user_id, data.message]
+    await write_db('data/chat.csv',data_row)
+    return {"Message": "POST OK"}
+
+@app.get("/chat")
+async def get_chat_data():
+    logger.debug("GET: get_chat_data ( /chat )")
+    data = await read_db('data/chat.csv')
     return data
 
 
